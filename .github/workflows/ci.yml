@@ -1,0 +1,29 @@
+name: C Build and Test
+
+on: 
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            
+            - name: Install dependencies
+              run: sudo apt-get update && sudo apt-get install -y build-essential
+
+            - name: Compile main program
+              run: gcc -o main main.c add.c
+
+            - name: Compile test program
+              run: gcc -o test test.c add.c
+
+            - name: Run tests
+              run: ./test
